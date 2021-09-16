@@ -5,9 +5,9 @@
 using namespace std;
 
 int digit16(int v, int d) {
-	// ¾çÀÇ Á¤¼ö v ÀÇ 16Áø¼ö d ¹øÂ° ¼ıÀÚ¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
-	// ¿¹¸¦ µé¾î v ÀÇ °ªÀÌ 78320238 (= 0x04ab126e) ÀÌ°í d °¡ 1 ÀÌ¶ó¸é 6 À» ¹İÈ¯
-	// ¿¹¸¦ µé¾î v ÀÇ °ªÀÌ 78320238 (= 0x04ab126e) ÀÌ°í d °¡ 4 ¶ó¸é 11 (= 0xb) À» ¹İÈ¯
+	// ì–‘ì˜ ì •ìˆ˜ v ì˜ 16ì§„ìˆ˜ d ë²ˆì§¸ ìˆ«ìë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
+	// ì˜ˆë¥¼ ë“¤ì–´ v ì˜ ê°’ì´ 78320238 (= 0x04ab126e) ì´ê³  d ê°€ 1 ì´ë¼ë©´ 6 ì„ ë°˜í™˜
+	// ì˜ˆë¥¼ ë“¤ì–´ v ì˜ ê°’ì´ 78320238 (= 0x04ab126e) ì´ê³  d ê°€ 4 ë¼ë©´ 11 (= 0xb) ì„ ë°˜í™˜
 	v = v >> d * 4;
 	return v & 0xf;
 }
@@ -60,7 +60,7 @@ void countingSort16(vector<pair<int, string> >& v, int d)
 
 
 
-#radixsort ³»°¡ ¾´°Å
+#radixsort ë‚´ê°€ ì“´ê±°
 #include <iostream>
 #include <string>
 #include <vector>
@@ -72,7 +72,7 @@ using namespace std;
 
 
 
-void reverseString(char* s) {	// ¹®ÀÚ¿­ÀÇ ¾ÕµÚ¸¦ reverse
+void reverseString(char* s) {	// ë¬¸ìì—´ì˜ ì•ë’¤ë¥¼ reverse
 	int size1 = strlen(s);
 	char temp;
 	for (int i = 0; i < size1 / 2; i++) {
@@ -82,9 +82,9 @@ void reverseString(char* s) {	// ¹®ÀÚ¿­ÀÇ ¾ÕµÚ¸¦ reverse
 	}
 }
 int digit16(int v, int d) {
-	// ¾çÀÇ Á¤¼ö v ÀÇ 16Áø¼ö d ¹øÂ° ¼ıÀÚ¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
-	// ¿¹¸¦ µé¾î v ÀÇ °ªÀÌ 78320238 (= 0x04ab126e) ÀÌ°í d °¡ 1 ÀÌ¶ó¸é 6 À» ¹İÈ¯
-	// ¿¹¸¦ µé¾î v ÀÇ °ªÀÌ 78320238 (= 0x04ab126e) ÀÌ°í d °¡ 4 ¶ó¸é 11 (= 0xb) À» ¹İÈ¯
+	// ì–‘ì˜ ì •ìˆ˜ v ì˜ 16ì§„ìˆ˜ d ë²ˆì§¸ ìˆ«ìë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
+	// ì˜ˆë¥¼ ë“¤ì–´ v ì˜ ê°’ì´ 78320238 (= 0x04ab126e) ì´ê³  d ê°€ 1 ì´ë¼ë©´ 6 ì„ ë°˜í™˜
+	// ì˜ˆë¥¼ ë“¤ì–´ v ì˜ ê°’ì´ 78320238 (= 0x04ab126e) ì´ê³  d ê°€ 4 ë¼ë©´ 11 (= 0xb) ì„ ë°˜í™˜
 	v = v >> d * 4;
 	return v & 0xf;
 }
@@ -103,7 +103,7 @@ void countingSort16(vector<pair<int, string> >& v, int d) {
 	for (int i = 0; i < v.size(); i++) {
 		char cv[10];
 		int aaa = v[i].first;
-		dec2hex(aaa, cv); //¹éÅÍ¿¡µç ¼ıÀÚ¸¦ 16Áø¼ö·Î º¯È¯	
+		dec2hex(aaa, cv); //ë°±í„°ì—ë“  ìˆ«ìë¥¼ 16ì§„ìˆ˜ë¡œ ë³€í™˜	
 		int lencv = 0;
 		for (int x = 0; x < 10; x++) {
 			if (cv[x] == '\0') {
@@ -112,12 +112,12 @@ void countingSort16(vector<pair<int, string> >& v, int d) {
 				break;
 			}
 		}
-		if (d > lencv - 1) { //dº¸´Ù ÀÚ¸®¼ö°¡ ÀûÀº°æ¿ì´Â que[0]¿¡ ³Ö¾îÁÜ 
+		if (d > lencv - 1) { //dë³´ë‹¤ ìë¦¬ìˆ˜ê°€ ì ì€ê²½ìš°ëŠ” que[0]ì— ë„£ì–´ì¤Œ 
 			que[0].push(pair<int, string>(v[i].first, v[i].second));
 			continue;
 		}
 
-		// 16Áø¼ö·Î º¯È¯µÈ°Í¿¡ d¹øÂ° ÀÚ¸®¸¦ 0~16Å¥¿¡ ¾Ë¸Â°Ô Çª½¬ 
+		// 16ì§„ìˆ˜ë¡œ ë³€í™˜ëœê²ƒì— dë²ˆì§¸ ìë¦¬ë¥¼ 0~16íì— ì•Œë§ê²Œ í‘¸ì‰¬ 
 		int xxx = lencv - (d + 1);
 		char cxx = cv[xxx];
 		if (cxx >= 'A' && cxx <= 'F') {
@@ -131,7 +131,7 @@ void countingSort16(vector<pair<int, string> >& v, int d) {
 
 		que[m].push(pair<int, string>(v[i].first, v[i].second));
 	}
-	//Å¥¿¡ µé¾îÀÖ´Â°É 0~16À» Â÷·Ê´ë·Î »©¼­ º¤ÅÍ¿¡ÀúÀå 
+	//íì— ë“¤ì–´ìˆëŠ”ê±¸ 0~16ì„ ì°¨ë¡€ëŒ€ë¡œ ë¹¼ì„œ ë²¡í„°ì—ì €ì¥ 
 	int aa = 0;
 	for (int x = 0; x < 16; x++) {
 		if (que[x].size() == 0) {
