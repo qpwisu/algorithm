@@ -1,4 +1,4 @@
-#3 max subarray  ³»°¡ Ç¬°Å »ê³¯°ú ÆÇ³¯À» ¾Ë ¼ö ÀÖÀ½ Æ©ÇÃÀ» ÀÌ¿ë
+#3 max subarray  ë‚´ê°€ í‘¼ê±° ì‚°ë‚ ê³¼ íŒë‚ ì„ ì•Œ ìˆ˜ ìˆìŒ íŠœí”Œì„ ì´ìš©
 
 
 
@@ -89,7 +89,7 @@
         int low = 0;
         int high = param0.size() - 1;
         tuple<int, int, int>  a = findmaxsub(param0, low, high);
-        answer = get<2>(a); // ¿©±â¼­ get¿¡ 0À» ³ÖÀ¸¸é »ê ³¯ index 1À» ³ÖÀ¸¸é ÆÇ³¯ index 2´Â »ê³¯°ú ÆÇ³¯ÀÇ °¡°İÂ÷
+        answer = get<2>(a); // ì—¬ê¸°ì„œ getì— 0ì„ ë„£ìœ¼ë©´ ì‚° ë‚  index 1ì„ ë„£ìœ¼ë©´ íŒë‚  index 2ëŠ” ì‚°ë‚ ê³¼ íŒë‚ ì˜ ê°€ê²©ì°¨
 
         return answer;
     }
