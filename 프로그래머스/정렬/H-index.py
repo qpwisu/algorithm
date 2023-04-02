@@ -1,4 +1,4 @@
-#문제 푸는데 어려움을 겪었다 우선 citations안에 들어 있는 값에서만 h -index가 나올수 있을꺼라 착각을 하고 풀었다 
+# citations안에 들어 있는 값에서만 h -index가 나올수 있을꺼라 착각을 하고 풀었다
 def solution(citations):
     citations.sort()
     l=len(citations)
