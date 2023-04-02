@@ -9,7 +9,8 @@ def solution(operations):
         elif q[0]=="D" and q[1]=="1":
             if len(queue)==0:
                 continue
-            queue.remove(max(queue))  #가장 큰수를 뽑아서 제거 
+            queue.remove(max(queue))  #가장 큰수를 뽑아서 제거
+            heapq.heapify(queue)
         elif q[0]=="D" and q[1]=="-1":
             if len(queue)==0:
                 continue
