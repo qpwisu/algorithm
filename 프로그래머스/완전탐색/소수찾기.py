@@ -1,29 +1,30 @@
-#permutations(순열)사용 combinations(조합) 이용 X 
-#JOIN활용 
+# 순열로 모든 경우의 수 생성
 from itertools import permutations
+import math
+
+
 def solution(numbers):
-    cbn = []
-    n= list(numbers)
-    cbn=list(map(int,n.copy()))
-    for i in range(2,len(n)+1):
-        c= list(permutations(n,i))
-        for j in c:
-            num=int("".join(j))
-            if num not in cbn:
-                cbn.append(num)
-    print(cbn)
-    cbn = [i for i in cbn if i>=2]
-    
-    answer = []
-    for i in cbn:
-        check =0
-        for s in range(2,i-1):
-        # for i in range(2,int(n**0.5) + 1): - 제곱근 보다 작은수로 나눠지는 것만 찾아도됨 시간단축 
-            if i%s==0:
-                check=1
-                break
-        if check==0:
-            answer.append(i)
-    answer_set = set(answer)
-    answer= list(answer_set)
-    return len(answer)
+    answer = 0
+
+    len_numbers = len(numbers)
+    numbers_li = list(numbers)
+    tmp_li = []
+
+    for i in range(1, len_numbers + 1):
+        perm_n = list(permutations(numbers_li, i))
+
+        for p in perm_n:
+            tmp_li.append(int("".join(p)))
+
+    tmp_li = list(set(tmp_li))
+    tmp_li = [i for i in tmp_li if i >= 2]
+    print(tmp_li)
+    for n in tmp_li:
+        check = True
+        for i in range(2, int(math.sqrt(n)) + 1):
+            if n % i == 0:
+                check = False
+                continue
+        if check == True:
+            answer += 1
+    return answer
