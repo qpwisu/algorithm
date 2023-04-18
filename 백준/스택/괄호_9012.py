@@ -1,27 +1,23 @@
-n = int(input())
-for i in range(n):
-    bracket = input()
-    bl = [ bracket[i] for i in range(len(bracket))]
+def st(bl):
     open = 0
     close = 0
-    asw = ""
     for j in range(len(bl)):
         b = bl.pop()
         if b == ")":
             close += 1
         else:
-            open+=1
+            open += 1
         if open > close:
-            asw = "NO"
-            break
-    if asw =="":
-        asw = "YES"
-
-    if open != close:
-        asw = "NO"
-        print(asw)
-        continue
+            return "NO"
+    if open == close:
+        return "YES"
     else:
-        asw = "Yes"
-        print(asw)
-        continue
+        return "NO"
+
+
+n = int(input())
+
+for i in range(n):
+    bracket = input()
+    bl = [bracket[i] for i in range(len(bracket))]
+    print(st(bl))
