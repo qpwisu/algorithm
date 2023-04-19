@@ -1,12 +1,9 @@
 from collections import deque
 n = int(input())
-li = [i+1 for i in range(n)][::-1]
+li = [i+1 for i in range(n)]
 q = deque(li)
-while True:
-    q.pop()
-    if len(q) == 1:
-        print(q[0])
-        break
-    tmp = q.pop()
-    q.appendleft(tmp)
-
+while (len(q)>1):
+    q.popleft()
+    tmp = q.popleft()
+    q.append(tmp)
+print(q[0])
