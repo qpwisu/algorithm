@@ -1,28 +1,35 @@
-from collections import deque
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+from collections import defaultdict
 def solution(tickets):
-    answer = ["ICN"]
-    n = len(tickets) 
-    
-    tickets.sort()
-    queue = deque([("ICN",[],0)]) #시작 공항, visited, 이동 횟수 
-    visited = []
-    
-    while queue:
-        start, visit, count = queue.popleft()
-        
-        if count == n:
-            visited = visit
-            break
-            
-        for i in range(n):
-            if i in visit:
-                continue 
-            
-            if start == tickets[i][0]:
-                queue.append((tickets[i][1],visit+[i],count+1))
-        
+    r = defaultdict(list)
+    for i,j in tickets:
+        r[i].append(j)
+    for i in r.keys():
+        r[i].sort()
 
-    for i in range(n):
-        answer.append(tickets[visited[i]][1])
-
-    return answer
+    s = ["ICN"]
+    p = []
+    while s:
+        q = s[-1]
+        if r[q] != []:
+            s.append(r[q].pop(0))
+        else:
+            p.append(s.pop())
+    return p[::-1]
