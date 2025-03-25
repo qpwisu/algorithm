@@ -1,26 +1,9 @@
-from itertools import combinations
-def solution(n, q, ans):
-    
-    li = [i for i in range(1,n+1)]
-    tmp = list(combinations(li,5))
-    
-    for i,a in enumerate(ans):
-        tmp_li = []
-        
-        for t in tmp:
-            if comparison(q[i],t,a):
-                tmp_li.append(t)
-        tmp = tmp_li 
-        
-    answer = len(tmp)
-    return answer
+import itertools 
 
-def comparison(a,b,num):
-    count = 0
-    for i in range(5):
-        if a[i] in b:
-            count +=1 
-    
-    if num == count:
-        return 1 
-    return 0 
+def solution(n, q, ans):
+    f = list(itertools.combinations(range(1, n + 1), 5))
+
+    for g, cnt in zip(q, ans):
+         f = [code for code in f if len(set(code) & set(g)) == cnt]
+
+    return len(f)
