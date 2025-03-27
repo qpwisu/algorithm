@@ -1,29 +1,15 @@
 import math
 def solution(n, w, num):
     h = math.ceil(n/w)
-    li = []
-    x = -1 
-    y =  math.ceil(num/w -1)
-    
-    count = 0
-    for i in range(h):
-        tmp_li = [0 for i in range(w)]
-        for j in range(w):
-            if n == count :
-                break 
-            
-            count +=1 
-            tmp_li[j] = count
+    li = [2*w*i+1 for i in range(1,h)] # 밑층과 위층의 합은 2*w*층수 +1 이다 이를 통해 위층의 값을 알아 낼수 있음 
+    nh = math.ceil(num/w) -1
+    answer = 1
 
-                
-        if i%2 == 1 :
-            tmp_li = tmp_li[::-1]
-        li.append(tmp_li)
-        if num in tmp_li:
-            x = tmp_li.index(num)
+    m = num
+    
+    for i in range(nh,h-1):
+        if li[i] - num <= n:
+            num = li[i] - num
+            answer +=1 
             
-    answer = 0
-    for i in range(y,h):
-        if li[i][x] !=0:
-            answer +=1
     return answer
