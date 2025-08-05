@@ -1,35 +1,25 @@
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-from collections import defaultdict
+# 모든 경우의 수에서 정렬된 가장 먼저 다쓰는거 
+# 전역 path, visited 사용 
+# 인자 level
 def solution(tickets):
-    r = defaultdict(list)
-    for i,j in tickets:
-        r[i].append(j)
-    for i in r.keys():
-        r[i].sort()
+    tickets.sort()
+    path = ["ICN"] 
+    visited = [False] * len(tickets)
+    answer = []
+    def dfs():
+        if len(path) == len(tickets)+1 :
+            answer.append(path[:])
+            return
+    
+        for id, (start, end) in enumerate(tickets):
+            if visited[id] == False:
+                if path[-1] == start: 
+                    path.append(end)
+                    visited[id] = True 
+                    dfs()
+                    path.pop()                    
+                    visited[id] = False 
 
-    s = ["ICN"]
-    p = []
-    while s:
-        q = s[-1]
-        if r[q] != []:
-            s.append(r[q].pop(0))
-        else:
-            p.append(s.pop())
-    return p[::-1]
+    dfs()   
+    
+    return answer[0]
