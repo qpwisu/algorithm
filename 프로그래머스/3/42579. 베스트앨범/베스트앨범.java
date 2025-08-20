@@ -1,45 +1,48 @@
 import java.util.*;
-
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
+        // 많은 재생된 장르 리스트
+        List<Integer> answer = new ArrayList<>();
+        int n = genres.length;
         
-        class GenreInfo {
-            int totalPlays = 0;
-            List<int[]> songs = new ArrayList<>();  // [index, play]
+        Map<String,List<List<Integer>>> map = new HashMap<>();
+        
+        for(int i=0; i<n; i++){
+            if (!map.containsKey(genres[i])) map.put(genres[i],new ArrayList<>());
+            map.get(genres[i]).add(Arrays.asList(plays[i],i));
+        }
+        
+        List<List<Object>> genresCount = new ArrayList<>();
+        
+        for (Map.Entry<String, List<List<Integer>>> entry : map.entrySet()){
+            Integer count = 0;
+            for( List<Integer> li : entry.getValue()){
+                count += li.get(0);
+            }
+            genresCount.add(Arrays.asList(entry.getKey(),count));
+        }
+        
+        genresCount.sort((a,b) -> (Integer) b.get(1) -(Integer)  a.get(1));
+        
+            
+                        
+        System.out.println(genresCount);               
+        System.out.println(map);     
 
-            public void addSong(int index, int playCount) {
-                totalPlays += playCount;
-                songs.add(new int[]{index, playCount});
+        for (List<Object> gc : genresCount){
+            map.get(gc.get(0)).sort((a,b) -> b.get(0)-a.get(0));
+            
+            if (map.get(gc.get(0)).size() == 1 ){
+                answer.add((Integer) map.get(gc.get(0)).get(0).get(1));
+            }
+            else{
+                answer.add((Integer) map.get(gc.get(0)).get(0).get(1));
+                answer.add((Integer) map.get(gc.get(0)).get(1).get(1));
             }
         }
+        System.out.println(answer);               
 
-        Map<String, GenreInfo> genreMap = new HashMap<>();
-
-        // 1. Map에 장르별 정보 저장
-        for (int i = 0; i < genres.length; i++) {
-            genreMap.putIfAbsent(genres[i], new GenreInfo());
-            genreMap.get(genres[i]).addSong(i, plays[i]);
-        }
-
-        // 2. 장르를 총 재생 수 기준으로 정렬
-        List<String> genreOrder = new ArrayList<>(genreMap.keySet());
-        genreOrder.sort((g1, g2) -> genreMap.get(g2).totalPlays - genreMap.get(g1).totalPlays);
-
-        // 3. 각 장르마다 재생 수 많은 노래 2개 뽑기
-        List<Integer> result = new ArrayList<>();
-        for (String genre : genreOrder) {
-            List<int[]> songs = genreMap.get(genre).songs;
-            songs.sort((a, b) -> {
-                if (b[1] == a[1]) return a[0] - b[0]; // 재생수 같으면 인덱스 오름차순
-                return b[1] - a[1]; // 재생수 내림차순
-            });
-
-            for (int i = 0; i < Math.min(2, songs.size()); i++) {
-                result.add(songs.get(i)[0]);
-            }
-        }
-
-        // 4. 리스트를 배열로 변환
-        return result.stream().mapToInt(i -> i).toArray();
+        int[] answers = answer.stream().mapToInt(i->i).toArray();
+        return answers;
     }
 }
