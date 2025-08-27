@@ -1,60 +1,67 @@
-def isOutside(storage, x, y):
-    dx, dy = [0, 0, 1, -1], [1, -1, 0, 0]
-    outside = False
-
-    for i in range(4):
-        nx, ny = x + dx[i], y + dy[i]
-        if storage[nx][ny] == "0":
-            storage[x][y] = "0"
-            outside = True
-            break
-
-    if outside:
-        for i in range(4):
-            nx, ny = x + dx[i], y + dy[i]
-            if storage[nx][ny] == "1":
-                storage[nx][ny] = "0"
-                isOutside(storage, nx, ny)
-
-def fork(storage, box):  # 지게차
-    dx, dy = [0, 0, 1, -1], [1, -1, 0, 0]
-    index = []
-    for i in range(1, len(storage)-1):
-        for j in range(1, len(storage[0])-1):
-            if storage[i][j] == box:
-                for k in range(4):
-                    nx, ny = i + dx[k], j + dy[k]
-                    if storage[nx][ny] == "0":
-                        index.append((i, j))
-                        break
-    for i, j in index:
-        storage[i][j] = "0"
-        isOutside(storage, i, j)
-
-def crane(storage, box):  # 크레인
-    for i in range(1, len(storage)-1):
-        for j in range(1, len(storage[0])-1):
-            if storage[i][j] == box:
-                storage[i][j] = "1"
-                isOutside(storage, i, j)
+#크레인으로 해당 알파벳 다제거 
+# bfs 사용해서 상하좌우 돌면서 벽나오면 빼기 
+from collections import deque 
 
 def solution(storage, requests):
-    n, m = len(storage), len(storage[0])
-    # 테두리에 '0' 추가 (외부 공간 표시)
-    storage = [list("0" + row + "0") for row in storage]
-    storage.insert(0, list("0" * (m + 2)))
-    storage.append(list("0" * (m + 2)))
-
-    for req in requests:
-        if len(req) == 1:
-            fork(storage, req[0])
-        else:
-            crane(storage, req[0])
-
-    # 남은 컨테이너 세기
+    N = len(storage)
+    M = len(storage[0])
+    li = [list(s) for s in storage]
     answer = 0
-    for i in range(1, len(storage) - 1):
-        for j in range(1, len(storage[0]) - 1):
-            if storage[i][j] not in ["0", "1"]:
-                answer += 1
+    
+    def train(alpha):
+        for i in range(N):
+            for j in range(M):
+                if li[i][j] == alpha:
+                    li[i][j] = 0 
+                    
+    def ziga(alpha):
+        ids = []
+        for i in range(N):
+            for j in range(M):
+                if li[i][j] == alpha:
+                    if i == 0 or j ==0 or i== N-1 or j == M-1:
+                        ids.append([i,j])
+                        continue
+                    if bfs(i,j):
+                        ids.append([i,j])
+
+        for y,x in ids:
+            li[y][x] = 0
+            
+    def bfs(y,x):
+        q = deque()
+        q.append([y,x])
+        dx = [0,0,-1,1]
+        dy = [-1,1,0,0]
+        flag = False 
+        visited = [[y,x]]
+        while q:
+            y,x = q.popleft()
+            
+            if y == 0 or x ==0 or y== N-1 or x == M-1:   
+                
+                flag = True 
+                break 
+                
+            for i in range(4):
+                mx = x + dx[i]
+                my = y + dy[i]
+                
+                if li[my][mx] == 0 and [my,mx] not in visited:
+                    q.append([my,mx])
+                    visited.append([my,mx])
+                
+        return flag
+                
+    for r in requests:
+        if len(r) == 1:
+            ziga(r)
+        else:
+            train(r[0])
+        
+
+    for i in range(N):
+        for j in range(M):
+            if li[i][j] !=0:
+                answer +=1 
     return answer
