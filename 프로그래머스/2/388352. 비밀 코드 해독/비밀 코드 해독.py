@@ -10,7 +10,7 @@ def solution(n, q, ans):
     for i, s in enumerate(q_sets):
         for x in s:
             in_q[i][x] = True
-
+    answer = 0
     # rem_in_q[i][pos] = pos..n 중에서 i번째 질의에 속하는 원소 개수 (suffix sum)
     rem_in_q = [[0]*(n+2) for _ in range(Q)]
     for i in range(Q):
