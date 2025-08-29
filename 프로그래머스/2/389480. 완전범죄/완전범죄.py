@@ -1,30 +1,26 @@
 def solution(info, n, m):
-    INF = float('inf')
-    N = len(info)
-    # dp[i][a] : 처음 i개 아이템까지 고려했을 때, A의 흔적이 a일 때의 최소 B의 흔적
-    dp = [[INF] * n for _ in range(N + 1)]
-    dp[0][0] = 0  # 초기 상태
+    INF = 10**9
+    # dp[j] = "B 흔적이 j (0 <= j < m) 일 때의 A 최소값"
+    if m <= 0:  # B < m 조건상 m=0이면 불가능
+        return -1
 
-    for i in range(N):
-        a_i, b_i = info[i]
-        for a in range(n):
-            if dp[i][a] == INF:
-                continue  # 도달할 수 없는 상태는 건너뛰기
+    dp = [INF] * m
+    dp[0] = 0
 
-            # 1. A 도둑이 아이템 i를 훔치는 경우
-            new_a = a + a_i
-            if new_a < n:  # A의 누적 흔적이 n 미만이어야 함
-                dp[i + 1][new_a] = min(dp[i + 1][new_a], dp[i][a])
-            
-            # 2. B 도둑이 아이템 i를 훔치는 경우
-            new_b = dp[i][a] + b_i
-            if new_b < m:  # B의 누적 흔적이 m 미만이어야 함
-                dp[i + 1][a] = min(dp[i + 1][a], new_b)
-    
-    # 모든 아이템을 고려한 후, 유효한 상태(두 도둑 모두 안전)에서 A의 흔적의 최솟값을 찾음
-    answer = INF
-    for a in range(n):
-        if dp[N][a] < m:
-            answer = min(answer, a)
-    
-    return answer if answer != INF else -1
+    for a, b in info:           # a: A 흔적, b: B 흔적
+        new = [INF] * m
+        for j in range(m):
+            if dp[j] == INF:
+                continue
+            # 1) 이 아이템을 A에 배정: B 그대로, A만 +a
+            if dp[j] + a < new[j]:
+                new[j] = dp[j] + a
+            # 2) 이 아이템을 B에 배정: B는 +b, A 변화 없음 (단 B < m 유지)
+            nj = j + b
+            if nj < m and dp[j] < new[nj]:
+                new[nj] = dp[j]
+        dp = new
+
+    # 최종: A < n 을 만족하는 것 중 A 최소값 선택
+    ans = min((dp[j] for j in range(m) if dp[j] < n), default=INF)
+    return ans if ans != INF else -1
