@@ -1,24 +1,25 @@
-from collections import deque
+from collections import deque 
 def solution(players, m, k):
     answer = 0
-    servers = []
-    servers = deque([])
-    server = 1 
+    n = len(players) # 총시간 
+    q= deque() # 사용 중인 서버 큐 (종료시간, 서버수)
+    serv = 0 # 현재 사용 중인 서버 수 
     
-    for i, p in enumerate(players):
+    for i in range(n):
         
-        if servers:
-            if servers[0][0] == i:
-                ids, s = servers.popleft()
-                server -= s 
-                print("서버제거 : ",ids, server)
-
+        if q:
+            if q[0][0] == i: # 사용시간 다지나면 
+                t, s = q.popleft()
+                serv -= s 
+            
+        user = players[i]
+        need = int(user/m) # 필요 서버수 
         
-        if p >= server * m:
-            p2 = p // m - server +1
-            servers.append([i+k,p2])
-            server += p2
-            answer += p2 
-            print("서버추가 : ",i,p2)
-
+        if need > serv:
+            ads = need - serv
+            q.append([i+k, ads])
+            serv += ads
+            answer += ads
+        
+    
     return answer
