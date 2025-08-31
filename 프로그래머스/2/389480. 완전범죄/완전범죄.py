@@ -1,26 +1,38 @@
+"""
+dp 둘중 하나 선택문제 
+새롭게 배열을 초기화해서 제공해야함 
+dp 인덱스가 a 흔적 값이 b 흔적 
+"""
 def solution(info, n, m):
-    INF = 10**9
-    # dp[j] = "B 흔적이 j (0 <= j < m) 일 때의 A 최소값"
-    if m <= 0:  # B < m 조건상 m=0이면 불가능
-        return -1
-
-    dp = [INF] * m
+    inf = float("inf")
+    dp = [inf] *n
+    # 처음에는 아무것도 않훔쳤으니 a흔적도 0 b도 0
     dp[0] = 0
-
-    for a, b in info:           # a: A 흔적, b: B 흔적
-        new = [INF] * m
-        for j in range(m):
-            if dp[j] == INF:
-                continue
-            # 1) 이 아이템을 A에 배정: B 그대로, A만 +a
-            if dp[j] + a < new[j]:
-                new[j] = dp[j] + a
-            # 2) 이 아이템을 B에 배정: B는 +b, A 변화 없음 (단 B < m 유지)
-            nj = j + b
-            if nj < m and dp[j] < new[nj]:
-                new[nj] = dp[j]
-        dp = new
-
-    # 최종: A < n 을 만족하는 것 중 A 최소값 선택
-    ans = min((dp[j] for j in range(m) if dp[j] < n), default=INF)
-    return ans if ans != INF else -1
+    
+    for a,b in info:
+        new_dp = [inf] *n
+        
+        for i in range(n):
+            if dp[i] == inf:
+                continue 
+            
+            # b를 훔친경우 
+            if dp[i] + b < m:
+                if new_dp[i] > dp[i] + b: 
+                    new_dp[i] = dp[i] + b
+            # a를 훔친경우 
+            if i+a < n:
+                if new_dp[i+a] > dp[i]:
+                    new_dp[i+a] =  dp[i] 
+        dp = new_dp 
+        
+    
+    answer = -1
+            
+    for i, ans in enumerate(dp):
+        if dp[i] == inf:
+            continue 
+        answer = i 
+        break 
+    
+    return answer
