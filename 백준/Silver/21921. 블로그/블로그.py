@@ -1,20 +1,22 @@
-N, T = map(int, input().split())
-li = list(map(int, input().split()))
+# 5 2
+# 1 4 2 5 1
 
-current_sum = sum(li[:T])
-mx = current_sum
-mc = 1
+N,X = map(int,input().split())
+li = list(map(int,input().split()))
+tmp = sum(li[:X])
+answer = tmp
+c = 1
+for i in range(N-X):
+    tmp += li[i+X]-li[i]
+    if tmp > answer:
+        answer =tmp
+        c = 1
+    elif tmp == answer:
+        c+=1
 
-for i in range(T, N):
-    current_sum = current_sum - li[i - T] + li[i]
-    if current_sum > mx:
-        mx = current_sum
-        mc = 1
-    elif current_sum == mx:
-        mc += 1
 
-if mx == 0:
+if answer == 0:
     print("SAD")
 else:
-    print(mx)
-    print(mc)
+    print(answer)
+    print(c)
