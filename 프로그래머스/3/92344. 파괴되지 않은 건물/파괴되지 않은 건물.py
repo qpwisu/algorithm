@@ -1,35 +1,39 @@
 def solution(board, skill):
-    n = len(board) # 세로
-    m = len(board[0]) # 가로 
     
-    diff = [[0] * (m+1) for _ in range(n+1) ]
+    M = len(board)
+    N = len(board[0])
+    
+    bo = [[0 for j in range(len(board[0])+2)] for i in range(len(board) + 2)]
 
-    for sk in skill:
-        tp, r1, c1, r2, c2, degree = sk
-        if tp == 1: # 공격
-            degree = - degree
-        diff[r1][c1] += degree
-        diff[r2+1][c2+1] += degree
-        diff[r1][c2+1] -= degree
-        diff[r2+1][c1] -= degree 
-    
-    # 왼 -> 오
-    for i in range(n+1):
-        for j in range(1,m+1):
-            diff[i][j] += diff[i][j-1]
+    for s in skill:
+        type, r1, c1, r2, c2, degree = s 
+        attack = -1 
+        
+        if type == 2:
+            attack *= -1
+        
+        bo[r1][c1] += degree*attack
+        bo[r1][c2+1] += - (degree*attack)
+        bo[r2+1][c1] += - (degree*attack)
+        bo[r2+1][c2+1] += degree*attack
+
+    for i in range(M):
+        for j in range(N):
+            bo[i][j+1] += bo[i][j] 
             
-    # 위 -> 아래
-    for i in range(m+1):
-        for j in range(1,n+1):
-            diff[j][i] += diff[j-1][i]
-            
-            
+    for i in range(N):
+        for j in range(M):
+            bo[j+1][i] += bo[j][i] 
+        
+    for i in range(N):
+        for j in range(M):
+            board[j][i] += bo[j][i] 
+
+        
+        
     answer = 0
-    
-    # 원래 그래프에 합치기 
-    for i in range(n):
-        for j in range(m):
-            if board[i][j] + diff[i][j] > 0 :
+    for i in range(N):
+        for j in range(M):
+            if board[j][i] > 0 :
                 answer +=1
-    
     return answer

@@ -1,10 +1,10 @@
 # [level 3] 파괴되지 않은 건물 - 92344 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92344?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92344) 
 
 ### 성능 요약
 
-메모리: 134 MB, 시간: 791.61 ms
+메모리: 143 MB, 시간: 1075.68 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 08월 31일 01:00:36
+2025년 09월 26일 20:36:37
 
 ### 문제 설명
 
